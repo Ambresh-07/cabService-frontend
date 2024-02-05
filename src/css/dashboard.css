@@ -1,0 +1,29 @@
+.contain {
+    width: 100%;
+    padding: 22px;
+}
+
+td.actions {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.add_user {
+    margin: 19px;
+}
+
+.user_btn {
+    width: 190px;
+    font-size: 25px;
+}
+
+
+/* model css */
+
+.row {
+    margin-bottom: 17px;
+}
+
+.errormsg {
+    color: red;
+}
