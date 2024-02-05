@@ -59,9 +59,9 @@ function AddUser() {
           .then((resp) => {
             console.log(resp);
             console.log("response log working");
-            
+
             resetForm({ values: "" });
-            setShow(true)
+            setShow(true);
           })
           .catch((errors) => {
             console.log("errors are getting");
@@ -69,7 +69,6 @@ function AddUser() {
           });
       },
     });
-
 
   return (
     <>
@@ -220,24 +219,10 @@ function AddUser() {
                 </form>
               </div>
             </Modal.Body>
-            {/* <Modal.Footer>
-          <Button
-            variant="secondary"
-            class="btn btn-warning"
-            onClick={handleClose}
-          >
-            reset
-          </Button>
-          <input type="submit" className="btn btn-success" value="Save_User" />
-        </Modal.Footer> */}
-
-            {/* <UserContext.Provider value={user}>
-          <Dashboard />
-        </UserContext.Provider> */}
           </Modal>
         </>
       ) : (
-        <Navigate to="/"  />
+        <Navigate to="/" />
       )}
     </>
   );

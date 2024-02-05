@@ -15,19 +15,21 @@ import Login from "./components/pages/Login";
 function App() {
   return (
     <>
-      {/* <Header /> */}
+      <Header />
       <div className="side_main">
-        {/* <Sidebar /> */}
-        <Login />
+        <Sidebar />
+        {/* <Login /> */}
 
-        {/* <Routes>
+        <Routes>
           <Route path="/" element={<Dashboard1 />}></Route>
           <Route path="/user" element={<User />}></Route>
           <Route path="/employee" element={<Employee />}></Route>
           <Route path="/driver" element={<Driver />}></Route>
           <Route path="/trip" element={<Trip />}></Route>
           <Route path="/addUser" element={<AddUser />}></Route>
-        </Routes> */}
+          <Route path="/edit-user/:id" element={<Dashboard1 />}></Route>
+          <Route path="/delete-user/:id" element={<Dashboard1 />}></Route>
+        </Routes>
       </div>
     </>
   );

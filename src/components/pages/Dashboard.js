@@ -2,51 +2,55 @@ import { React, useContext, useEffect, useState } from "react";
 import dashboardcss from "../../css/dashboard.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 import AddUser from "./AddUser";
 import { getallusers } from "../../services/UserService";
-import { deleteUser } from "../../services/UserService";
+import { deleteUser, getuserbyid } from "../../services/UserService";
 
 import { UserContext } from "./AddUser";
 import axios, { formToJSON } from "axios";
-function Dashboard() {
+import Usermap from "./Usermap";
+
+function Dashboard({ deleteid }) {
   const Userdata = useContext(UserContext);
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
+  const { id } = useParams();
+  // const deleteid = props;
 
+  //fetch users all record
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const response = await getallusers();
+      setUsers(response);
+      console.log(
+        "data is comming from database as a response : " +
+          JSON.stringify(response)
+      );
+      // setUsers(response);
+      console.log("user data after set : " + users);
+    } catch (errors) {
+      console.log(errors);
+    }
+    setLoading(false);
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const response = await getallusers();
-        // setUsers(response);
-        console.log(
-          "data is comming from database as a response : " +
-            JSON.stringify(response)
-        );
-        setUsers(response);
-        console.log("user data after set : " + users);
-      } catch (errors) {
-        console.log(errors);
-      }
-      setLoading(false);
-    };
     fetchData();
-  }, []);
-  console.log("user data after set : " + users);
+  });
 
   // delete user
-  const deleteUserData = (e, id) => {
-    e.preventDefault();
-    console.log("working...");
-    // const deluser = async () => {
-    //   try {
-    //     const users = await deleteUser(id);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-    // deluser();
+  const handleDelete = (id) => {
+    if (id) {
+      try {
+        console.log("id is find" + id);
+
+        deleteUser(id);
+        fetchData();
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   // const url = "http://localhost:8080/api/user";
@@ -69,6 +73,8 @@ function Dashboard() {
   // }, []);
 
   // console.log("data is "+users);
+
+  //edit user
 
   return (
     <>
@@ -94,7 +100,8 @@ function Dashboard() {
             </thead>
             <tbody>
               {users.map((user) => (
-                <tr>
+                // <Usermap user={users} />
+                <tr key={user.id}>
                   <td>{user.id}</td>
                   <td>{user.firstname}</td>
                   <td>{user.lastname}</td>
@@ -104,36 +111,22 @@ function Dashboard() {
                   <td>{user.role}</td>
                   <td>{user.contact}</td>
                   <td className="actions">
-                    <i className="edit itemaction">
+               
+                    <Link
+                      className="btn btn-primary"
+                      to={`/edit-user/${user.id}`}
+                    >
                       <EditIcon />
-                    </i>
-                    <i className="delete itemaction">
-                      <DeleteIcon onclick={(e) => deleteUserData(e, user.id)} />
-                    </i>
+                    </Link>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => handleDelete(user.id)}
+                    >
+                      <DeleteIcon />
+                    </button>
                   </td>
                 </tr>
               ))}
-
-              <tr>
-                <td>0</td>
-
-                <td>"demo-name"</td>
-                <td>"demo-lastname"</td>
-                <td>"abg@gmail.com</td>
-                <td>9876543145</td>
-                <td>pune</td>
-                <td>status-active</td>
-                <td>status-role</td>
-                <td className="actions">
-                  <i className="edit itemaction">
-                    <EditIcon />
-                  </i>
-                  <i className="delete itemaction">
-                    <DeleteIcon />
-                  </i>
-                </td>
-              </tr>
-              {/* ))}  */}
             </tbody>
           </table>
         </div>
