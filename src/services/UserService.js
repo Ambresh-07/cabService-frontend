@@ -8,12 +8,13 @@ export const getallusers = () => {
   return myaxios.get("/api/user").then((response) => response.data);
 };
 export const getuserbyid = (id) => {
-  return myaxios.get("/api/"+id).then((response) => response.data);
+  return myaxios.get(`/api/${id}`).then((response) => response.data);
 };
 
 export const deleteUser = (id) => {
   return myaxios.delete("/api/" + id).then((response) => response.data);
 }
-export const editUser = (id) => {
-  return myaxios.put("/api/" + id).then((response) => response.data);
+export const updateUser = (user,id) => {
+  return myaxios.put("/api/" + id,user).then((response) => response.data);
 }
+

@@ -11,6 +11,7 @@ import Trip from "./components/pages/Trip";
 import Main from "./components/Sidebar/MainContent/Main";
 import AddUser from "./components/pages/AddUser";
 import Login from "./components/pages/Login";
+import EditUser from "./components/pages/EditUser";
 
 function App() {
   return (
@@ -21,13 +22,13 @@ function App() {
         {/* <Login /> */}
 
         <Routes>
-          <Route path="/" element={<Dashboard1 />}></Route>
+          <Route exect path="/" element={<Dashboard1 />}></Route>
           <Route path="/user" element={<User />}></Route>
           <Route path="/employee" element={<Employee />}></Route>
           <Route path="/driver" element={<Driver />}></Route>
           <Route path="/trip" element={<Trip />}></Route>
           <Route path="/addUser" element={<AddUser />}></Route>
-          <Route path="/edit-user/:id" element={<Dashboard1 />}></Route>
+          <Route path="/edit-user/:id" element={<EditUser />}></Route>
           <Route path="/delete-user/:id" element={<Dashboard1 />}></Route>
         </Routes>
       </div>

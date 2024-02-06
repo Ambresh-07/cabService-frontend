@@ -1,4 +1,4 @@
-import { React, useContext, useEffect, useState } from "react";
+import { React, createContext, useContext, useEffect, useState } from "react";
 import dashboardcss from "../../css/dashboard.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -10,34 +10,61 @@ import { deleteUser, getuserbyid } from "../../services/UserService";
 import { UserContext } from "./AddUser";
 import axios, { formToJSON } from "axios";
 import Usermap from "./Usermap";
+import EditUser from "./EditUser";
+export const UserIdData = createContext();
 
-function Dashboard({ deleteid }) {
+function Dashboard({ user_id }) {
   const Userdata = useContext(UserContext);
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
-  const { id } = useParams();
+  // const { id } = useParams();
   // const deleteid = props;
+  // console.log("updated user id" + user_id);
 
   //fetch users all record
-  const fetchData = async () => {
+  const fetchData = async (e) => {
     setLoading(true);
     try {
       const response = await getallusers();
       setUsers(response);
-      console.log(
-        "data is comming from database as a response : " +
-          JSON.stringify(response)
-      );
+      fetchData();
+      // console.log(
+      //   "data is comming from database as a response : " +
+      //   JSON.stringify(response)
+
+      // );
       // setUsers(response);
-      console.log("user data after set : " + users);
+      // console.log("user data after set : " + users);
     } catch (errors) {
       console.log(errors);
     }
-    setLoading(false);
   };
+
+  // get user by id
+
+  // const getuserbyid = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const response = await getuserbyid(user_id);
+  //     setUsers(response);
+  //     fetchData();
+  //     console.log(
+  //       "data is comming from database as a response :updated data " +
+  //         JSON.stringify(response)
+  //     );
+  //     // setUsers(response);
+  //     // console.log("user data after set : " + users);
+  //   } catch (errors) {
+  //     console.log(errors);
+  //   }
+  //   setLoading(false);
+  // };
   useEffect(() => {
     fetchData();
-  });
+    // if (user_id) {
+    //   getuserbyid();
+    // }
+  }, []);
 
   // delete user
   const handleDelete = (id) => {
@@ -111,7 +138,6 @@ function Dashboard({ deleteid }) {
                   <td>{user.role}</td>
                   <td>{user.contact}</td>
                   <td className="actions">
-               
                     <Link
                       className="btn btn-primary"
                       to={`/edit-user/${user.id}`}
@@ -127,6 +153,13 @@ function Dashboard({ deleteid }) {
                   </td>
                 </tr>
               ))}
+              {/* {user_id ? (
+                <UserIdData.Provider updateIdData={users}>
+                  <EditUser />
+                </UserIdData.Provider>
+              ) : (
+                null
+              )} */}
             </tbody>
           </table>
         </div>

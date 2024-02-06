@@ -24,10 +24,11 @@ const initialValues = {
 function AddUser() {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
-  const [check, setCheck] = useState(true);
+  const [check, setCheck] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleModel = () => setCheck(true);
   const [loading, setloading] = useState(true);
 
   // const [user, setUser] = useState([]);
@@ -47,7 +48,7 @@ function AddUser() {
       validationSchema: userSchema,
 
       onSubmit: (values, { resetForm }) => {
-        setCheck(false);
+        setShow(false);
         // if (values) {
         //   setUser(values);
         //    console.log("user data : "+user);
@@ -61,7 +62,7 @@ function AddUser() {
             console.log("response log working");
 
             resetForm({ values: "" });
-            setShow(true);
+            // setShow(true);
           })
           .catch((errors) => {
             console.log("errors are getting");
@@ -76,7 +77,7 @@ function AddUser() {
         Add User
       </Button>
 
-      {check ? (
+      {show ? (
         <>
           <Modal show={show} onHide={handleClose} size="lg">
             <Modal.Header closeButton>
@@ -176,9 +177,7 @@ function AddUser() {
                         onChange={handleChange}
                         onBlur={handleBlur}
                       >
-                        <option value="selected" selected>
-                          --select--
-                        </option>
+                        <option>--select--</option>
                         <option value="active">Active</option>
                         <option value="inactive">InActive</option>
                       </select>
@@ -198,9 +197,7 @@ function AddUser() {
                         onChange={handleChange}
                         onBlur={handleBlur}
                       >
-                        <option value="selected" selected>
-                          --select--
-                        </option>
+                        <option>--select--</option>
                         <option value="admin">Admin</option>
                         <option value="user">User</option>
                         <option value="employee">Employee</option>
@@ -219,6 +216,20 @@ function AddUser() {
                 </form>
               </div>
             </Modal.Body>
+            {/* <Modal.Footer>
+          <Button
+            variant="secondary"
+            class="btn btn-warning"
+            onClick={handleClose}
+          >
+            reset
+          </Button>
+          <input type="submit" className="btn btn-success" value="Save_User" />
+        </Modal.Footer> */}
+
+            {/* <UserContext.Provider value={user}>
+          <Dashboard />
+        </UserContext.Provider> */}
           </Modal>
         </>
       ) : (
