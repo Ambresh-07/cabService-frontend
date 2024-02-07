@@ -1,4 +1,11 @@
-import { React, createContext, useContext, useEffect, useState } from "react";
+import {
+  React,
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import dashboardcss from "../../css/dashboard.css";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -11,10 +18,11 @@ import { UserContext } from "./AddUser";
 import axios, { formToJSON } from "axios";
 import Usermap from "./Usermap";
 import EditUser from "./EditUser";
-export const UserIdData = createContext();
+// export const UserIdData = createContext();
 
 function Dashboard({ user_id }) {
   const Userdata = useContext(UserContext);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
   // const { id } = useParams();
@@ -27,12 +35,12 @@ function Dashboard({ user_id }) {
     try {
       const response = await getallusers();
       setUsers(response);
-      fetchData();
-      // console.log(
-      //   "data is comming from database as a response : " +
-      //   JSON.stringify(response)
-
-      // );
+      console.log(
+        "data is comming from database as a response  formik: " +
+          JSON.stringify(response)
+      );
+      // fetchData();
+      setIsLoggedIn(false);
       // setUsers(response);
       // console.log("user data after set : " + users);
     } catch (errors) {
@@ -40,30 +48,8 @@ function Dashboard({ user_id }) {
     }
   };
 
-  // get user by id
-
-  // const getuserbyid = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const response = await getuserbyid(user_id);
-  //     setUsers(response);
-  //     fetchData();
-  //     console.log(
-  //       "data is comming from database as a response :updated data " +
-  //         JSON.stringify(response)
-  //     );
-  //     // setUsers(response);
-  //     // console.log("user data after set : " + users);
-  //   } catch (errors) {
-  //     console.log(errors);
-  //   }
-  //   setLoading(false);
-  // };
   useEffect(() => {
     fetchData();
-    // if (user_id) {
-    //   getuserbyid();
-    // }
   }, []);
 
   // delete user
@@ -79,29 +65,6 @@ function Dashboard({ user_id }) {
       }
     }
   };
-
-  // const url = "http://localhost:8080/api/user";
-  // const url = "http://localhost:8080/api/3";
-
-  // useEffect(() => {
-  //   fetch("http://localhost:8080/api/user")
-  //     .then((response) => response.json())
-  //     .then((response) => {
-  //       console.log(
-  //         "data is comming from database as a response: " +
-  //           JSON.stringify(response)
-  //       );
-  //       setUsers(response);
-  //       console.log("response after setUser   : " + users);
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //     });
-  // }, []);
-
-  // console.log("data is "+users);
-
-  //edit user
 
   return (
     <>
@@ -127,7 +90,6 @@ function Dashboard({ user_id }) {
             </thead>
             <tbody>
               {users.map((user) => (
-                // <Usermap user={users} />
                 <tr key={user.id}>
                   <td>{user.id}</td>
                   <td>{user.firstname}</td>
@@ -153,13 +115,6 @@ function Dashboard({ user_id }) {
                   </td>
                 </tr>
               ))}
-              {/* {user_id ? (
-                <UserIdData.Provider updateIdData={users}>
-                  <EditUser />
-                </UserIdData.Provider>
-              ) : (
-                null
-              )} */}
             </tbody>
           </table>
         </div>
